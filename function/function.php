@@ -25,8 +25,9 @@ function addDosen($data)
   global $conn;
 
   $namaDosen = ucwords(htmlspecialchars($data['namaDosen']));
+  $matkul = $data['matkul'];
 
-  $query = "INSERT INTO dosen VALUES ('DK','','$namaDosen')";
+  $query = "INSERT INTO dosen VALUES ('DK','','$namaDosen','$matkul')";
 
   mysqli_query($conn, $query);
 
@@ -235,4 +236,33 @@ function deleteNilai($matkul, $nim)
 
   mysqli_query($conn, $query);
   return mysqli_affected_rows($conn);
+}
+
+///// FUNCTION JADWAL /////
+
+// TAMBAH JADWAL
+function addJadwal($data)
+{
+  global $conn;
+
+  $dosen = $data['nim'];
+  $ruangan = $data['ruangan'];
+  $hari = ucwords($data['hari']);
+  $jamM = $data['waktuMasuk'];
+  $jamK = $data['waktuKeluar'];
+
+  $query = "INSERT INTO jadwal VALUES ('','$dosen','$ruangan','$hari','$jamM','$jamK')";
+  mysqli_query($conn, $query);
+
+  return mysqli_affected_rows($conn);
+}
+
+function deleteJadwal($id_jadwal) {
+  global $conn;
+
+  $query = "DELETE FROM jadwal WHERE id_jadwal = $id_jadwal";
+  mysqli_query($conn,$query);
+
+  return mysqli_affected_rows($conn);
+
 }

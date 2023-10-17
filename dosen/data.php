@@ -429,8 +429,8 @@ if (isset($_POST['dataDosen'])) {
               <div class="mb-3">
                 <label for="matkul" class="form-label">Mata Kuliah</label>
                 <select name="matkul" id="matkul" class="form-control">
-                  <?php foreach($matkul as $data) : ?>
-                  <option value="<?= $data['id_matkul']?>"><?= $data['nama_matkul']?></option>
+                  <?php foreach ($matkul as $data) : ?>
+                    <option value="<?= $data['id_matkul'] ?>"><?= $data['nama_matkul'] ?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
