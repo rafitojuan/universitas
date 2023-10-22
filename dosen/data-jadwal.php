@@ -10,6 +10,14 @@ $dosenSelect = query("SELECT * FROM dosen JOIN mata_kuliah AS n USING(id_matkul)
 $ruangan = query("SELECT * FROM ruangan");
 $jadwal = query("SELECT * FROM jadwal JOIN dosen AS d USING(id_dosen) JOIN mata_kuliah USING(id_matkul) JOIN ruangan AS r USING(id_ruangan) ");
 
+if (!isset($_SESSION['login'])) {
+  echo "
+  <script>
+  alert('Harap login dahulu...')
+  document.location.href = '../auth/login.php'
+  </script>";
+}
+
 if (isset($_POST['subJadwal'])) {
   if (addJadwal($_POST) > 0) {
     echo "
@@ -47,6 +55,7 @@ if (isset($_POST['subJadwal'])) {
   <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
+  <link rel="icon" href="../dist/img/hopes.png">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -162,7 +171,7 @@ if (isset($_POST['subJadwal'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index.php" class="brand-link">
+      <a href="../index.php" class="brand-link">
         <img src="../dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>
@@ -395,10 +404,10 @@ if (isset($_POST['subJadwal'])) {
                           <td class="text-center"><span class="text-bold"><?= $jamMasuk  ?></span> - <span class="text-bold"><?= $jamKeluar  ?></span></a></td>
                           <td><?= $items['nama_ruangan']  ?></a></td>
                           <td class="text-center">
-                            <a href="../function/updateJadwal.php?jadwal=<?= $items['id_jadwal']; ?>" class="uptJadwal badge bg-primary"><i class="fas fa-pencil-alt"></i> Update</a>
+                            <a href="../function/updateJadwal.php?j=<?= $items['id_jadwal']; ?>" class="uptJadwal badge bg-primary"><i class="fas fa-pencil-alt"></i> Update</a>
                           </td>
                           <td class="text-center">
-                            <a href="../function/deleteJadwal.php?jadwal=<?= $items['id_jadwal']; ?>" class="delJadwal badge bg-danger"><i class="fas fa-trash"></i> Delete</a>
+                            <a href="../function/deleteJadwal.php?j=<?= $items['id_jadwal']; ?>" class="delJadwal badge bg-danger"><i class="fas fa-trash"></i> Delete</a>
                           </td>
                       </tr>
                     <?php endforeach;  ?>
@@ -557,7 +566,7 @@ if (isset($_POST['subJadwal'])) {
   </script>
 
   <script>
-    $('.uptRuangan').on('click', function(a) {
+    $('.uptJadwal').on('click', function(a) {
       a.preventDefault();
       const uptSiswaLink = $(this).attr('href')
 

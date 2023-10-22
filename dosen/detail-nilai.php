@@ -7,14 +7,19 @@ include '../partials/notlogin.php';
 $nim = $_GET['nim'];
 
 $data_matkul = query("SELECT * FROM mata_kuliah");
-
 $join = query("SELECT *, nilai, AVG(nilai) as Nilai, CONCAT(mahasiswa.uni,nim,mahasiswa.ajaran) AS NIM FROM mahasiswa LEFT JOIN nilai AS n USING(nim) JOIN mahasiswa AS m USING(nim) WHERE nim = '$nim' GROUP BY nim")[0];
-
 $selectQuery = query("SELECT *, nilai, CONCAT(mahasiswa.uni,nim,mahasiswa.ajaran) AS NIM FROM mahasiswa LEFT JOIN nilai AS n USING(nim) JOIN mahasiswa AS m USING(nim) JOIN mata_kuliah AS test USING(id_matkul)  WHERE nim = '$nim'");
-
 $no = 1;
-
 $dataMahasiswa = query("SELECT * FROM mahasiswa");
+
+if (!isset($_SESSION['login'])) {
+  echo "
+  <script>
+  alert('Harap login dahulu...')
+  document.location.href = '../auth/login.php'
+  </script>";
+}
+
 if (isset($_POST['subNilai'])) {
   if (addNilai($_POST) > 0) {
     echo "
@@ -65,6 +70,7 @@ if (isset($_POST['updateNilai'])) {
   <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
+  <link rel="icon" href="../dist/img/hopes.png">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -180,7 +186,7 @@ if (isset($_POST['updateNilai'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index.php" class="brand-link">
+      <a href="../index.php" class="brand-link">
         <img src="../dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>

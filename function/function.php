@@ -251,18 +251,34 @@ function addJadwal($data)
   $jamM = $data['waktuMasuk'];
   $jamK = $data['waktuKeluar'];
 
-  $query = "INSERT INTO jadwal VALUES ('','$dosen','$ruangan','$hari','$jamM','$jamK')";
+  $query = "INSERT INTO jadwal VALUES (NULL,'$dosen','$ruangan','$hari','$jamM','$jamK')";
   mysqli_query($conn, $query);
 
   return mysqli_affected_rows($conn);
 }
 
-function deleteJadwal($id_jadwal) {
+function deleteJadwal($id_jadwal)
+{
   global $conn;
 
   $query = "DELETE FROM jadwal WHERE id_jadwal = $id_jadwal";
-  mysqli_query($conn,$query);
+  mysqli_query($conn, $query);
 
   return mysqli_affected_rows($conn);
+}
 
+function updateJadwal($data)
+{
+  global $conn;
+
+  $id = $data['id_jadwal'];
+  $dosen = $data['dosen'];
+  $hari = $data['hari'];
+  $jamM = $data['waktuMasuk'];
+  $jamK = $data['waktuKeluar'];
+  $ruangan = $data['ruangan'];
+
+  $query = "UPDATE jadwal SET id_dosen = $dosen, id_ruangan = '$ruangan', hari = '$hari', jam_masuk = '$jamM', jam_keluar = '$jamK' WHERE id_jadwal = $id";
+  mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
 }

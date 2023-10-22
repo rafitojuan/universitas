@@ -3,10 +3,18 @@ require '../function/function.php';
 session_start();
 
 include '../partials/notlogin.php';
+
 $id_matkul = $_GET['matkul'];
 $data_matkul = query("SELECT * FROM mata_kuliah");
-
 $getMatkul = query("SELECT * FROM mata_kuliah WHERE id_matkul = '$id_matkul'")[0];
+
+if (!isset($_SESSION['login'])) {
+  echo "
+  <script>
+  alert('Harap login dahulu...')
+  document.location.href = '../auth/login.php'
+  </script>";
+}
 
 if (isset($_POST['uptMatkul'])) {
   if (updateMatkul($_POST) > 0) {
@@ -45,6 +53,7 @@ if (isset($_POST['uptMatkul'])) {
   <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
+  <link rel="icon" href="../dist/img/hopes.png">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -160,7 +169,7 @@ if (isset($_POST['uptMatkul'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index.php" class="brand-link">
+      <a href="../index.php" class="brand-link">
         <img src="../dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>
@@ -218,7 +227,7 @@ if (isset($_POST['uptMatkul'])) {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="dosen/#" class="nav-link">
+                  <a href="../dosen/data-jadwal.php" class="nav-link">
                     <i class="fas fa-calendar-day nav-icon"></i>
                     <p>Daftar Jadwal</p>
                   </a>

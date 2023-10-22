@@ -1,7 +1,7 @@
 <?php
 require 'function.php';
 
-$id_jadwal = $_GET['jadwal'];
+$id_jadwal = $_GET['j'];
 
 if (deleteJadwal($id_jadwal) > 0) {
   echo "

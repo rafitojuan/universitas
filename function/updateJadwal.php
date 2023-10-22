@@ -4,22 +4,30 @@ session_start();
 
 include '../partials/notlogin.php';
 
-$data_matkul = query("SELECT * FROM mata_kuliah");
-$dosen = query("SELECT * FROM dosen JOIN mata_kuliah AS n USING(id_matkul)");
-$dosenSelect = query("SELECT * FROM dosen JOIN mata_kuliah AS n USING(id_matkul)")[0];
-$ruangan = query("SELECT * FROM ruangan");
-$jadwal = query("SELECT * FROM jadwal JOIN dosen AS d USING(id_dosen) JOIN mata_kuliah USING(id_matkul) JOIN ruangan AS r USING(id_ruangan) ");
+$getJadwal = $_GET['j'];
 
-if (isset($_POST['subJadwal'])) {
-  if (addJadwal($_POST) > 0) {
+$dosen = query("SELECT * FROM dosen JOIN mata_kuliah AS n USING(id_matkul)");
+$ruangan = query("SELECT * FROM ruangan");
+$jadwal = query("SELECT * FROM jadwal JOIN dosen AS d USING(id_dosen) JOIN mata_kuliah USING(id_matkul) JOIN ruangan AS r USING(id_ruangan) WHERE id_jadwal = '$getJadwal' ")[0];
+
+if (!isset($_SESSION['login'])) {
+  echo "
+  <script>
+  alert('Harap login dahulu...')
+  document.location.href = '../auth/login.php'
+  </script>";
+}
+
+if (isset($_POST['uptJadwal'])) {
+  if (updateJadwal($_POST) > 0) {
     echo "
     <script>
-    document.location.href = 'data-jadwal.php?jadwal=1';
+    document.location.href = '../dosen/data-jadwal.php?update=1';
     </script>";
   } else {
     echo "
     <script>
-      document.location.href = 'data-jadwal.php?fail';
+      document.location.href = '../dosen/data-jadwal.php?notUpdate';
     </script>";
   }
 }
@@ -47,6 +55,7 @@ if (isset($_POST['subJadwal'])) {
   <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
+  <link rel="icon" href="../dist/img/hopes.png">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -162,7 +171,7 @@ if (isset($_POST['subJadwal'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index.php" class="brand-link">
+      <a href="../index.php" class="brand-link">
         <img src="../dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>
@@ -220,7 +229,7 @@ if (isset($_POST['subJadwal'])) {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="data-jadwal.php" class="nav-link active">
+                  <a href="../dosen/data-jadwal.php" class="nav-link active">
                     <i class="fas fa-calendar-day nav-icon"></i>
                     <p>Daftar Jadwal</p>
                   </a>
@@ -320,102 +329,76 @@ if (isset($_POST['subJadwal'])) {
         <div class="container-fluid">
           <div class="row">
             <div class="col-12">
-              <a href="#" class="badge bg-success mb-2 p-2" data-toggle="modal" data-target="#modal-jadwal">
-                <i class="fas fa-pencil-alt"> Tambah Jadwal</i>
-              </a>
-              <?php
-              if (isset($_GET['jadwal'])) {
-                echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <i class="  fas fa-check-circle"></i>
-                <strong>Sukses!</strong> Data Jadwal berhasil ditambahkan.
-                <button type="button" id="dismissAlert" class="tutup close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              ';
-              } elseif (isset($_GET['fail'])) {
-                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="  fas fa-check-circle"></i>
-                <strong>Oopps!</strong> Data Jadwal tidak ditambahkan.
-                <button type="button" id="dismissAlert" class="tutup close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              ';
-              } elseif (isset($_GET['update'])) {
-                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="  fas fa-check-circle"></i>
-                <strong>Sukses!</strong> Data Jadwal berhasil diubah.
-                <button type="button" id="dismissAlert" class="tutup close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              ';
-              } elseif (isset($_GET['notUpdate'])) {
-                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="  fas fa-check-circle"></i>
-                <strong>Oopps!</strong> Data Jadwal tidak diubah.
-                <button type="button" id="dismissAlert" class="tutup close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              ';
-              }
-              ?>
               <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title text-bold">Data Jadwal</h3>
+                <div class="card-header bg-dark">
+                  <h3 class="card-title text-bold">Edit Data Jadwal</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead class="bg-dark text-white">
-                      <tr>
-                        <th>Dosen</th>
-                        <th>Mata Kuliah</th>
-                        <th>Hari</th>
-                        <th>Waktu</th>
-                        <th>Ruangan</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <?php
-                        foreach ($jadwal as $items) :
-                          $jamM = strtotime($items['jam_masuk']);
-                          $jamK = strtotime($items['jam_keluar']);
-                          $jamMasuk = date('H:i', $jamM);
-                          $jamKeluar = date('H:i', $jamK);
-                        ?>
-                          <td><?= $items['nama_dosen']  ?></td>
-                          <td><?= $items['nama_matkul']  ?></td>
-                          <td><?= ucwords($items['hari'])  ?></a></td>
-                          <td class="text-center"><span class="text-bold"><?= $jamMasuk  ?></span> - <span class="text-bold"><?= $jamKeluar  ?></span></a></td>
-                          <td><?= $items['nama_ruangan']  ?></a></td>
-                          <td class="text-center">
-                            <a href="../function/updateJadwal.php?jadwal=<?= $items['id_jadwal']; ?>" class="uptJadwal badge bg-primary"><i class="fas fa-pencil-alt"></i> Update</a>
-                          </td>
-                          <td class="text-center">
-                            <a href="../function/deleteJadwal.php?jadwal=<?= $items['id_jadwal']; ?>" class="delJadwal badge bg-danger"><i class="fas fa-trash"></i> Delete</a>
-                          </td>
-                      </tr>
-                    <?php endforeach;  ?>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th>Dosen</th>
-                        <th>Mata Kuliah</th>
-                        <th>Hari</th>
-                        <th>Waktu</th>
-                        <th>Ruangan</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                      </tr>
-                    </tfoot>
-                  </table>
+                  <form action="" method="post">
+                    <input type="hidden" name="id_jadwal" value="<?= $jadwal['id_jadwal'] ?>">
+                    <div class="row mb-3">
+                      <div class="col-md-3 mt-2">
+                        <label for="dosen" class="form-label">Nama Dosen:</label>
+                      </div>
+                      <div class="col-md-9">
+                        <select name="dosen" id="dosen" class="form-control">
+                          <option selected disabled value="<?= $jadwal['id_dosen'] ?>"><?= $jadwal['nama_dosen'] ?></option>
+                          <?php foreach ($dosen as $items) : ?>
+                            <option value="<?= $items['id_dosen'] ?>"><?= $items['nama_dosen'] ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-3 mt-2">
+                        <label for="hari" class="form-label">Hari:</label>
+                      </div>
+                      <div class="col-md-9">
+                        <select name="hari" id="hari" class="form-control">
+                          <option disabled selected><?= $jadwal['hari']  ?></option>
+                          <option value="senin">Senin</option>
+                          <option value="selasa">Selasa</option>
+                          <option value="rabu">Rabu</option>
+                          <option value="kamis">Kamis</option>
+                          <option value="jumat">Jumat</option>
+                          <option value="sabtu">Sabtu</option>
+                          <option value="minggu">Minggu</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-3 mt-2">
+                        <label for="alamat" class="form-label">Jam:</label>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="time" name="waktuMasuk" id="waktu" class="form-control" value="<?= $jadwal['jam_masuk']  ?>">
+                      </div>
+                      <div class="col-md-1 text-center">
+                        <h3>-</h3>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="time" name="waktuKeluar" id="waktu" class="form-control" value="<?= $jadwal['jam_keluar']  ?>">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-md-3 mt-2">
+                        <label for="ruangan" class="form-label">Ruangan:</label>
+                      </div>
+                      <div class="col-md-9">
+                        <select class="form-control" name="ruangan" id="ruangan" required>
+                          <option disabled selected><?= $jadwal['nama_ruangan'] ?></option>
+                          <?php foreach ($ruangan as $items) : ?>
+                            <option value="<?= $items['id_ruangan'] ?>"><?= $items['nama_ruangan'] ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
                 </div>
+                <div class="card-footer">
+                  <button type="submit" name="uptJadwal" class="btn btn-success float-right"><i class="fas fa-upload"></i> Update</button>
+                </div>
+                </form>
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
@@ -427,72 +410,6 @@ if (isset($_POST['subJadwal'])) {
         <!-- /.container-fluid -->
       </section>
       <!-- /.content -->
-    </div>
-
-    <!-- MODAL INPUT -->
-    <div class="modal fade" id="modal-jadwal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Tambah Jadwal</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form action="" method="post">
-            <div class="modal-body">
-              <div class="mb-3">
-                <label for="nim" class="form-label">Dosen</label>
-                <select class="form-control" name="nim" id="nim">
-                  <?php foreach ($dosen as $data) : ?>
-                    <option value="<?= $data['id_dosen']  ?>"><?= $data['nama_dosen'] ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-
-              <div class="mb-3">
-                <label for="hari" class="form-label">Waktu</label>
-                <select name="hari" id="hari" class="form-control">
-                  <option value="senin">Senin</option>
-                  <option value="selasa">Selasa</option>
-                  <option value="rabu">Rabu</option>
-                  <option value="kamis">Kamis</option>
-                  <option value="jumat">Jumat</option>
-                  <option value="sabtu">Sabtu</option>
-                  <option value="minggu">Minggu</option>
-                </select>
-              </div>
-
-              <div class="mb-3">
-                <div class="row">
-                  <div class="col-md-6">
-                    <label for="waktu">Jam masuk</label>
-                    <input type="time" name="waktuMasuk" id="waktu" class="form-control">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="keluar">Jam keluar</label>
-                    <input type="time" name="waktuKeluar" id="keluar" class="form-control">
-                  </div>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="Ruangan" class="form-label">Ruangan</label>
-                <select name="ruangan" id="ruangan" class="form-control">
-                  <?php foreach ($ruangan as $items) : ?>
-                    <option value="<?= $items['id_ruangan'] ?>"><?= $items['nama_ruangan'] ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="submit" class="btn btn-success" name="subJadwal"><i class="fas fa-paper-plane"></i> Input Data</button>
-            </div>
-          </form>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
     </div>
 
     <!-- /.content-wrapper -->
@@ -552,7 +469,7 @@ if (isset($_POST['subJadwal'])) {
 
   <script>
     $('.tutup').on('click', function() {
-      window.location = 'data-jadwal.php';
+      window.location = '../dosen/data-jadwal.php';
     })
   </script>
 

@@ -49,6 +49,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <link rel="icon" href="dist/img/hopes.png">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

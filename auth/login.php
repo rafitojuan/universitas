@@ -63,6 +63,7 @@ if (isset($_SESSION['login'])) {
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+  <link rel="icon" href="../dist/img/hopes.png">
 </head>
 
 <body class="hold-transition login-page">

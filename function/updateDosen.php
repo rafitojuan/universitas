@@ -6,11 +6,16 @@ session_start();
 
 include '../partials/notlogin.php';
 $dosen = query("SELECT CONCAT(prefix,id_dosen) AS 'ID_DOSEN', id_dosen, nama_dosen FROM dosen");
-
 $id_dosen = $_GET['id_dosen'];
-
 $getDosen = query("SELECT * FROM dosen WHERE id_dosen = $id_dosen")[0];
 
+if (!isset($_SESSION['login'])) {
+  echo "
+  <script>
+  alert('Harap login dahulu...')
+  document.location.href = '../auth/login.php'
+  </script>";
+}
 
 if (isset($_POST['uptDosen'])) {
   if (updateDosen($_POST) > 0) {
@@ -49,6 +54,7 @@ if (isset($_POST['uptDosen'])) {
   <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
+  <link rel="icon" href="../dist/img/hopes.png">
   <!-- SweetAlert2 -->
 </head>
 
@@ -165,7 +171,7 @@ if (isset($_POST['uptDosen'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index.php" class="brand-link">
+      <a href="../index.php" class="brand-link">
         <img src="../dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>
@@ -223,7 +229,7 @@ if (isset($_POST['uptDosen'])) {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="dosen/#" class="nav-link">
+                  <a href="../dosen/data-jadwal.php" class="nav-link">
                     <i class="fas fa-calendar-day nav-icon"></i>
                     <p>Daftar Jadwal</p>
                   </a>
