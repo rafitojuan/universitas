@@ -7,7 +7,15 @@ if (!isset($_SESSION['login'])) {
   echo "
   <script>
   alert('Harap login dahulu...')
-  document.location.href = 'auth/login.php'
+  document.location.href = 'auth/login'
+  </script>";
+}
+
+if (isset($_SESSION['mahasiswa'])) {
+  echo "
+  <script>
+  alert('Bandel Yahhh?!?!?...')
+  document.location.href = 'auth/login'
   </script>";
 }
 
@@ -67,7 +75,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="index.php" class="nav-link">Home</a>
+          <a href="index" class="nav-link">Home</a>
         </li>
       </ul>
 
@@ -170,7 +178,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index.php" class="brand-link">
+      <a href="index" class="brand-link">
         <img src="dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>
@@ -205,7 +213,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
             <li class="nav-header">DASHBOARD</li>
             <!-- DASHBOARD -->
             <li class="nav-item">
-              <a href="index.php" class="nav-link active">
+              <a href="index" class="nav-link active">
                 <i class="nav-icon fab fa-gg"></i>
                 <p>Dashboard</p>
               </a>
@@ -222,13 +230,13 @@ $jmlh_matkul = mysqli_num_rows($matkul);
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="dosen/data.php" class="nav-link">
+                  <a href="dosen/data" class="nav-link">
                     <i class="fas fa-user-tie nav-icon"></i>
                     <p>Daftar Dosen</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="dosen/data-jadwal.php" class="nav-link">
+                  <a href="dosen/data-jadwal" class="nav-link">
                     <i class="fas fa-calendar-day nav-icon"></i>
                     <p>Daftar Jadwal</p>
                   </a>
@@ -238,7 +246,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
             <li class="nav-header">MAHASISWA</li>
             <!-- MAHASISWA -->
             <li class="nav-item">
-              <a href="admin/mhs.php" class="nav-link">
+              <a href="admin/mhs" class="nav-link">
                 <i class="nav-icon fas fa-user-graduate"></i>
                 <p>
                   Mahasiswa
@@ -247,13 +255,13 @@ $jmlh_matkul = mysqli_num_rows($matkul);
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="dosen/data-siswa.php" class="nav-link">
+                  <a href="dosen/data-siswa" class="nav-link">
                     <i class="fa fa-user nav-icon"></i>
                     <p>Daftar Mahasiswa</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="dosen/data-nilai.php" class="nav-link">
+                  <a href="dosen/data-nilai" class="nav-link">
                     <i class="fas fa-file-invoice nav-icon"></i>
                     <p>Daftar Nilai</p>
                   </a>
@@ -272,13 +280,13 @@ $jmlh_matkul = mysqli_num_rows($matkul);
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="dosen/daftar-ruangan.php" class="nav-link">
+                  <a href="dosen/daftar-ruangan" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
                     <p>Daftar Ruangan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="dosen/daftar-matkul.php" class="nav-link">
+                  <a href="dosen/daftar-matkul" class="nav-link">
                     <i class="far fa-file-alt nav-icon"></i>
                     <p>Daftar Mata Kuliah</p>
                   </a>
@@ -342,7 +350,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
                 <div class="icon">
                   <i class="fas fa-user-tie"></i>
                 </div>
-                <a href="dosen/data.php" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="dosen/data" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -357,7 +365,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
                 <div class="icon">
                   <i class="fas fa-user-graduate"></i>
                 </div>
-                <a href="dosen/data-siswa.php" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="dosen/data-siswa" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -372,7 +380,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
                 <div class="icon">
                   <i class="fas fa-building"></i>
                 </div>
-                <a href="dosen/daftar-ruangan.php" class="small-box-footer"> <span class="text-light">Selengkapnya</span> <i class="fas fa-arrow-circle-right text-light"></i></a>
+                <a href="dosen/daftar-ruangan" class="small-box-footer"> <span class="text-light">Selengkapnya</span> <i class="fas fa-arrow-circle-right text-light"></i></a>
               </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -386,7 +394,7 @@ $jmlh_matkul = mysqli_num_rows($matkul);
                 <div class="icon">
                   <i class="fas fa-book-open"></i>
                 </div>
-                <a href="dosen/daftar-matkul.php" class="small-box-footer"> <span class="text-light">Selengkapnya</span> <i class="fas fa-arrow-circle-right text-light"></i></a>
+                <a href="dosen/daftar-matkul" class="small-box-footer"> <span class="text-light">Selengkapnya</span> <i class="fas fa-arrow-circle-right text-light"></i></a>
               </div>
             </div>
           </div>
@@ -473,11 +481,11 @@ $jmlh_matkul = mysqli_num_rows($matkul);
             icon: 'success'
           }).then((result) => {
             if (result.dismiss === Swal.DismissReason.timer) {
-              document.location.href = 'auth/logout.php'
+              document.location.href = 'auth/logout'
             } else if (result.dismiss === Swal.DismissReason.deny) {
-              document.location.href = 'auth/logout.php'
+              document.location.href = 'auth/logout'
             } else {
-              document.location.href = 'auth/logout.php'
+              document.location.href = 'auth/logout'
             }
           })
         }

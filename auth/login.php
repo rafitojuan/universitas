@@ -9,20 +9,46 @@ if (isset($_POST['logged'])) {
   $result = mysqli_query($conn, "SELECT * FROM admin WHERE username = '$username'");
   if (mysqli_num_rows($result) === 1) {
     $row = mysqli_fetch_assoc($result);
-    if ($pwadmin == $row['password']) {
+    if ($username == $row['username'] && $pwadmin == $row['password']) {
       $_SESSION["login"] = true;
       $_SESSION["username"] = ucfirst($row['username']);
 
       echo "
             <script>
-            document.location.href ='../index.php'
+            document.location.href ='../index'
             </script>
             ";
     } else {
       echo "
       <script>
       alert('Password Salah')
-      document.location.href = '../index.php'
+      document.location.href = 'login'
+      </script>
+      ";
+    }
+  }
+
+  $user = $_POST['username'];
+  $pwuser = $_POST['pwadmin'];
+
+  $masis = mysqli_query($conn, "SELECT * FROM mahasiswa WHERE nim = '$user'");
+  if (mysqli_num_rows($masis) === 1) {
+    $baris = mysqli_fetch_assoc($masis);
+    if ($user == $baris['nim'] && $pwuser == $baris['password']) {
+      $_SESSION["mahasiswa"] = true;
+      $_SESSION["namaMHS"] = ucfirst($baris['nama_mahasiswa']);
+      $_SESSION["nim"] = $baris['nim'];
+
+      echo "
+            <script>
+            document.location.href ='../mahasiswa/index.php'
+            </script>
+            ";
+    } else {
+      echo "
+      <script>
+      alert('Password Salah')
+      document.location.href = 'login.php'
       </script>
       ";
     }

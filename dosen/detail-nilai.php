@@ -16,7 +16,7 @@ if (!isset($_SESSION['login'])) {
   echo "
   <script>
   alert('Harap login dahulu...')
-  document.location.href = '../auth/login.php'
+  document.location.href = '../auth/login'
   </script>";
 }
 
@@ -24,12 +24,12 @@ if (isset($_POST['subNilai'])) {
   if (addNilai($_POST) > 0) {
     echo "
     <script>
-    document.location.href = 'data-nilai.php?nilai=1';
+    document.location.href = 'data-nilai?nilai=1';
     </script>";
   } else {
     echo "
     <script>
-      document.location.href = 'data-nilai.php?fail';
+      document.location.href = 'data-nilai?fail';
     </script>";
   }
 }
@@ -38,12 +38,12 @@ if (isset($_POST['updateNilai'])) {
   if (updateNilai($_POST) > 0) {
     echo "
     <script>
-    document.location.href = 'detail-nilai.php?nim=$nim';
+    document.location.href = 'detail-nilai?nim=$nim';
     </script>";
   } else {
     echo "
     <script>
-      document.location.href = 'detail-nilai.php?nim=$nim';
+      document.location.href = 'detail-nilai?nim=$nim';
     </script>";
   }
 }
@@ -83,7 +83,7 @@ if (isset($_POST['updateNilai'])) {
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../index.php" class="nav-link">Home</a>
+          <a href="../index" class="nav-link">Home</a>
         </li>
       </ul>
 
@@ -186,7 +186,7 @@ if (isset($_POST['updateNilai'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="../index.php" class="brand-link">
+      <a href="../index" class="brand-link">
         <img src="../dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>
@@ -221,7 +221,7 @@ if (isset($_POST['updateNilai'])) {
             <li class="nav-header">DASHBOARD</li>
             <!-- DASHBOARD -->
             <li class="nav-item">
-              <a href="../index.php" class="nav-link">
+              <a href="../index" class="nav-link">
                 <i class="nav-icon fab fa-gg"></i>
                 <p>Dashboard</p>
               </a>
@@ -238,13 +238,13 @@ if (isset($_POST['updateNilai'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="../dosen/data.php" class="nav-link">
+                  <a href="../dosen/data" class="nav-link">
                     <i class="fas fa-user-tie nav-icon"></i>
                     <p>Daftar Dosen</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="data-jadwal.php" class="nav-link">
+                  <a href="data-jadwal" class="nav-link">
                     <i class="fas fa-calendar-day nav-icon"></i>
                     <p>Daftar Jadwal</p>
                   </a>
@@ -263,13 +263,13 @@ if (isset($_POST['updateNilai'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="../dosen/data-siswa.php" class="nav-link">
+                  <a href="../dosen/data-siswa" class="nav-link">
                     <i class="fa fa-user nav-icon"></i>
                     <p>Daftar Mahasiswa</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../dosen/data-nilai.php" class="nav-link active">
+                  <a href="../dosen/data-nilai" class="nav-link active">
                     <i class="fas fa-file-invoice nav-icon"></i>
                     <p>Daftar Nilai</p>
                   </a>
@@ -288,13 +288,13 @@ if (isset($_POST['updateNilai'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="daftar-ruangan.php" class="nav-link">
+                  <a href="daftar-ruangan" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
                     <p>Daftar Ruangan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="daftar-matkul.php" class="nav-link">
+                  <a href="daftar-matkul" class="nav-link">
                     <i class="far fa-file-alt nav-icon"></i>
                     <p>Daftar Mata Kuliah</p>
                   </a>
@@ -330,7 +330,7 @@ if (isset($_POST['updateNilai'])) {
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="../index">Home</a></li>
                 <li class="breadcrumb-item active">Data Nilai</li>
               </ol>
             </div>
@@ -367,7 +367,7 @@ if (isset($_POST['updateNilai'])) {
                           <td class="text-center"><?= $showNilai['nilai']  ?></td>
                           <td>
                             <a href="#" data-target="#modalEdit<?= $showNilai['nilai'] ?>" data-toggle="modal" class="badge bg-primary"><i class="fas fa-pencil-alt"></i> Update</a>
-                            <a href="../function/deleteNilai.php?matkul=<?= $showNilai['id_matkul'] ?>&nim=<?= $showNilai['nim'] ?>" class="delNilai badge bg-danger float-right"><i class="fas fa-trash"> Delete</i></a>
+                            <a href="../function/deleteNilai?matkul=<?= $showNilai['id_matkul'] ?>&nim=<?= $showNilai['nim'] ?>" class="delNilai badge bg-danger float-right"><i class="fas fa-trash"> Delete</i></a>
                           </td>
                         </tr>
                         <!-- Modal -->
@@ -425,7 +425,7 @@ if (isset($_POST['updateNilai'])) {
             </div>
             <!-- /.card-body -->
             <div class="card-footer justify-content-between ">
-              <a href="../dosen/data-nilai.php" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</a>
+              <a href="../dosen/data-nilai" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</a>
             </div>
           </div>
           <!-- /.card -->
@@ -554,11 +554,11 @@ if (isset($_POST['updateNilai'])) {
             icon: 'success'
           }).then((result) => {
             if (result.dismiss === Swal.DismissReason.timer) {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             } else if (result.dismiss === Swal.DismissReason.deny) {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             } else {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             }
           })
         }

@@ -7,11 +7,11 @@ $nim = $_GET['nim'];
 if (deleteNilai($matkul, $nim) > 0) {
   echo "
   <script>
-    document.location.href = '../dosen/detail-nilai.php?nim=$nim';
+    document.location.href = '../dosen/detail-nilai?nim=$nim';
 </script>";
 } else {
   echo "
   <script>
-    document.location.href = '../dosen/daftar-matkul.php';
+    document.location.href = '../dosen/daftar-matkul';
   </script>";
 }

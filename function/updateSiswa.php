@@ -12,7 +12,7 @@ if (!isset($_SESSION['login'])) {
   echo "
   <script>
   alert('Harap login dahulu...')
-  document.location.href = '../auth/login.php'
+  document.location.href = '../auth/login'
   </script>";
 }
 
@@ -20,12 +20,12 @@ if (isset($_POST['uptSiswa'])) {
   if (updateSiswa($_POST) > 0) {
     echo "
     <script>
-    document.location.href = '../dosen/data-siswa.php?update';
+    document.location.href = '../dosen/data-siswa?update';
     </script>";
   } else {
     echo "
     <script>
-      document.location.href = '../dosen/data-siswa.php?notUpdate';
+      document.location.href = '../dosen/data-siswa?notUpdate';
     </script>";
   }
 }
@@ -66,7 +66,7 @@ if (isset($_POST['uptSiswa'])) {
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../index.php" class="nav-link">Home</a>
+          <a href="../index" class="nav-link">Home</a>
         </li>
       </ul>
 
@@ -169,7 +169,7 @@ if (isset($_POST['uptSiswa'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="../index.php" class="brand-link">
+      <a href="../index" class="brand-link">
         <img src="../dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>
@@ -204,7 +204,7 @@ if (isset($_POST['uptSiswa'])) {
             <li class="nav-header">DASHBOARD</li>
             <!-- DASHBOARD -->
             <li class="nav-item">
-              <a href="../index.php" class="nav-link">
+              <a href="../index" class="nav-link">
                 <i class="nav-icon fab fa-gg"></i>
                 <p>Dashboard</p>
               </a>
@@ -221,13 +221,13 @@ if (isset($_POST['uptSiswa'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="../dosen/data.php" class="nav-link">
+                  <a href="../dosen/data" class="nav-link">
                     <i class="fas fa-user-tie nav-icon"></i>
                     <p>Daftar Dosen</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../dosen/data-jadwal.php" class="nav-link">
+                  <a href="../dosen/data-jadwal" class="nav-link">
                     <i class="fas fa-calendar-day nav-icon"></i>
                     <p>Daftar Jadwal</p>
                   </a>
@@ -246,13 +246,13 @@ if (isset($_POST['uptSiswa'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="../dosen/data-siswa.php" class="nav-link active">
+                  <a href="../dosen/data-siswa" class="nav-link active">
                     <i class="fa fa-user nav-icon"></i>
                     <p>Daftar Mahasiswa</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../dosen/data-nilai.php" class="nav-link">
+                  <a href="../dosen/data-nilai" class="nav-link">
                     <i class="fas fa-file-invoice nav-icon"></i>
                     <p>Daftar Nilai</p>
                   </a>
@@ -271,13 +271,13 @@ if (isset($_POST['uptSiswa'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="dosen/daftar-ruangan.php" class="nav-link">
+                  <a href="dosen/daftar-ruangan" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
                     <p>Daftar Ruangan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="dosen/daftar-matkul.php" class="nav-link">
+                  <a href="dosen/daftar-matkul" class="nav-link">
                     <i class="far fa-file-alt nav-icon"></i>
                     <p>Daftar Mata Kuliah</p>
                   </a>
@@ -451,11 +451,11 @@ if (isset($_POST['uptSiswa'])) {
             icon: 'success'
           }).then((result) => {
             if (result.dismiss === Swal.DismissReason.timer) {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             } else if (result.dismiss === Swal.DismissReason.deny) {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             } else {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             }
           })
         }

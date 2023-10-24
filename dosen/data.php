@@ -13,7 +13,7 @@ if (!isset($_SESSION['login'])) {
   echo "
   <script>
   alert('Harap login dahulu...')
-  document.location.href = '../auth/login.php'
+  document.location.href = '../auth/login'
   </script>";
 }
 
@@ -21,14 +21,14 @@ if (isset($_POST['dataDosen'])) {
   if (addDosen($_POST) > 0) {
 ?>
     <script>
-      document.location.href = 'data.php?success=1';
+      document.location.href = 'data?success=1';
     </script>
 <?php
   } else {
     echo "
     <script>
       alert('Data Gagal Ditambahkan, Coba Lagi!!!');
-      document.location.href = 'data.php';
+      document.location.href = 'data';
     </script>";
   }
 }
@@ -69,7 +69,7 @@ if (isset($_POST['dataDosen'])) {
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="../index.php" class="nav-link">Home</a>
+          <a href="../index" class="nav-link">Home</a>
         </li>
       </ul>
 
@@ -172,7 +172,7 @@ if (isset($_POST['dataDosen'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="../index.php" class="brand-link">
+      <a href="../index" class="brand-link">
         <img src="../dist/img/hopes.png" alt="AdminJuan Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Hope's Peak</span>
       </a>
@@ -207,7 +207,7 @@ if (isset($_POST['dataDosen'])) {
             <li class="nav-header">DASHBOARD</li>
             <!-- DASHBOARD -->
             <li class="nav-item">
-              <a href="../index.php" class="nav-link">
+              <a href="../index" class="nav-link">
                 <i class="nav-icon fab fa-gg"></i>
                 <p>Dashboard</p>
               </a>
@@ -224,13 +224,13 @@ if (isset($_POST['dataDosen'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="../dosen/data.php" class="nav-link active">
+                  <a href="../dosen/data" class="nav-link active">
                     <i class="fas fa-user-tie nav-icon"></i>
                     <p>Daftar Dosen</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="data-jadwal.php" class="nav-link">
+                  <a href="data-jadwal" class="nav-link">
                     <i class="fas fa-calendar-day nav-icon"></i>
                     <p>Daftar Jadwal</p>
                   </a>
@@ -249,13 +249,13 @@ if (isset($_POST['dataDosen'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="../dosen/data-siswa.php" class="nav-link">
+                  <a href="../dosen/data-siswa" class="nav-link">
                     <i class="fa fa-user nav-icon"></i>
                     <p>Daftar Mahasiswa</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../dosen/data-nilai.php" class="nav-link">
+                  <a href="../dosen/data-nilai" class="nav-link">
                     <i class="fas fa-file-invoice nav-icon"></i>
                     <p>Daftar Nilai</p>
                   </a>
@@ -274,13 +274,13 @@ if (isset($_POST['dataDosen'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="daftar-ruangan.php" class="nav-link">
+                  <a href="daftar-ruangan" class="nav-link">
                     <i class="far fa-building nav-icon"></i>
                     <p>Daftar Ruangan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="daftar-matkul.php" class="nav-link">
+                  <a href="daftar-matkul" class="nav-link">
                     <i class="far fa-file-alt nav-icon"></i>
                     <p>Daftar Mata Kuliah</p>
                   </a>
@@ -390,8 +390,8 @@ if (isset($_POST['dataDosen'])) {
                           <td><?= $items['ID_DOSEN'] ?></td>
                           <td><?= $items['nama_dosen']  ?></td>
                           <td><?= $items['nama_matkul']  ?></td>
-                          <td class="text-center"><a href="../function/updateDosen.php?id_dosen=<?= $items['id_dosen']; ?>" class="uptDos badge bg-primary"><i class="fas fa-pencil-alt"></i> Update</a></td>
-                          <td class="text-center"><a href="../function/deleteDosen.php?id_dosen=<?= $items['id_dosen']; ?>" class="delete badge bg-danger"><i class="fas fa-trash"></i> Delete</a></td>
+                          <td class="text-center"><a href="../function/updateDosen?id_dosen=<?= $items['id_dosen']; ?>" class="uptDos badge bg-primary"><i class="fas fa-pencil-alt"></i> Update</a></td>
+                          <td class="text-center"><a href="../function/deleteDosen?id_dosen=<?= $items['id_dosen']; ?>" class="delete badge bg-danger"><i class="fas fa-trash"></i> Delete</a></td>
                         </tr>
                       <?php endforeach; ?>
                     </tbody>
@@ -497,7 +497,7 @@ if (isset($_POST['dataDosen'])) {
   <!-- Page specific script -->
   <script>
     $("#dismissAlert").on("click", function() {
-      window.location.href = "data.php";
+      window.location.href = "data";
     })
   </script>
 
@@ -578,11 +578,11 @@ if (isset($_POST['dataDosen'])) {
             icon: 'success'
           }).then((result) => {
             if (result.dismiss === Swal.DismissReason.timer) {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             } else if (result.dismiss === Swal.DismissReason.deny) {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             } else {
-              document.location.href = '../auth/logout.php'
+              document.location.href = '../auth/logout'
             }
           })
         }
