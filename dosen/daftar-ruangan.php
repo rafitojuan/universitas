@@ -4,15 +4,7 @@ session_start();
 
 include '../partials/notlogin.php';
 
-if (!isset($_SESSION['login'])) {
-  echo "
-  <script>
-  alert('Harap login dahulu...')
-  document.location.href = '../auth/login'
-  </script>";
-}
-
-$data_ruangan = query("SELECT * FROM ruangan");
+$data_ruangan = query("SELECT *, CONCAT(prefix,id_ruangan) AS IDR FROM ruangan");
 
 if (isset($_POST['subRuangan'])) {
   if (addRuangan($_POST) > 0) {
@@ -385,7 +377,7 @@ if (isset($_POST['subRuangan'])) {
                     <tbody>
                       <?php foreach ($data_ruangan as $items) : ?>
                         <tr>
-                          <td><?= $items['id_ruangan'] ?></td>
+                          <td><?= $items['IDR'] ?></td>
                           <td><?= $items['nama_ruangan']  ?></td>
                           <td class="text-center">
                             <a href="../function/updateRuangan?id_ruangan=<?= $items['id_ruangan']; ?>" class="uptRuangan badge bg-primary"><i class="fas fa-pencil-alt"></i> Update</a>
@@ -431,10 +423,6 @@ if (isset($_POST['subRuangan'])) {
           </div>
           <form action="" method="post">
             <div class="modal-body">
-              <div class="mb-3">
-                <label for="idRuangan" class="form-label">ID Ruangan</label>
-                <input type="text" name="idRuangan" id="idRuangan" class="form-control" required oninvalid="this.setCustomValidity('Kolom ID tidak boleh kosong!')" oninput="this.setCustomValidity('')">
-              </div>
               <div class="mb-3">
                 <label for="namaRuangan" class="form-label">Nama Ruangan</label>
                 <input type="text" name="namaRuangan" id="namaRuangan" class="form-control" required oninvalid="this.setCustomValidity('Kolom nama tidak boleh kosong!')" oninput="this.setCustomValidity('')">

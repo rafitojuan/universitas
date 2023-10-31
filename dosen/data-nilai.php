@@ -8,14 +8,6 @@ $data_matkul = query("SELECT * FROM mata_kuliah");
 $join = query("SELECT *, AVG(nilai) as Nilai, CONCAT(mahasiswa.uni,nim,mahasiswa.ajaran) AS NIM FROM mahasiswa LEFT JOIN nilai AS n USING(nim) JOIN mahasiswa AS m USING(nim) GROUP BY nim");
 $dataMahasiswa = query("SELECT * FROM mahasiswa");
 
-if (!isset($_SESSION['login'])) {
-  echo "
-  <script>
-  alert('Harap login dahulu...')
-  document.location.href = '../auth/login'
-  </script>";
-}
-
 if (isset($_POST['subNilai'])) {
   if (addNilai($_POST) > 0) {
     echo "
@@ -526,7 +518,7 @@ if (isset($_POST['subNilai'])) {
       var i = 1;
       $('#plusRow').click(function(c) {
         c.preventDefault()
-        $('#dynamicAdd').append('<div id="row' + i + '" class="row"><div class="col-5"><label for="matkul" class="form-label"></label><select name="matkul[]" id="matkul" class="form-control"><?php foreach ($data_matkul as $option) : ?><option value="<?= $option['id_matkul']; ?>"><?= $option['nama_matkul'];  ?></option><?php endforeach; ?></select></div><div class="col-5"><label for="nilai" class="form-label"></label><select name="nilai[]" id="nilai" class="form-control"><option value="4">A</option><option value="3">B</option><option value="2">C</option><option value="1">D</option><option value="0">E</option></select></div> <div class="col-2"><button class="removeRow badge badge-danger border-0" style="margin-top: 20px;" id="' + i + '"> - </button></div></div></div>');
+        $('#dynamicAdd').append('<div id="row' + i + '" class="row"><div class="col-5"><label for="matkul" class="form-label"></label><select name="matkul[]" id="matkul" class="form-control"><?php foreach ($data_matkul as $option) : ?><option value="<?= $option['id_matkul']; ?>"><?= $option['nama_matkul'];  ?></option><?php endforeach; ?></select></div><div class="col-5"><label for="nilai" class="form-label"></label><select name="nilai[]" id="nilai" class="form-control"><option value="4">A</option><option value="3">B</option><option value="2">C</option><option value="1">D</option><option value="0">E</option></select></div> <div class="col-2"><button class="addRow badge badge-success border-0 mr-2" style="margin-top: 20px;" id="' + i + '">+</button><button class="removeRow badge badge-danger border-0" style="margin-top: 20px;" id="' + i + '"> - </button></div></div></div>');
         i++;
       });
 
@@ -534,6 +526,13 @@ if (isset($_POST['subNilai'])) {
         f.preventDefault();
         var row_id = $(this).attr("id");
         $('#row' + row_id + '').remove();
+      })
+
+      $(document).on('click', '.addRow', function(l) {
+        var i = 1;
+        l.preventDefault();
+        $('#dynamicAdd').append('<div id="row' + i + '" class="row"><div class="col-5"><label for="matkul" class="form-label"></label><select name="matkul[]" id="matkul" class="form-control"><?php foreach ($data_matkul as $option) : ?><option value="<?= $option['id_matkul']; ?>"><?= $option['nama_matkul'];  ?></option><?php endforeach; ?></select></div><div class="col-5"><label for="nilai" class="form-label"></label><select name="nilai[]" id="nilai" class="form-control"><option value="4">A</option><option value="3">B</option><option value="2">C</option><option value="1">D</option><option value="0">E</option></select></div> <div class="col-2"><button class="addRow badge badge-success border-0 mr-2" style="margin-top: 20px;" id="' + i + '">+</button><button class="removeRow badge badge-danger border-0" style="margin-top: 20px;" id="' + i + '"> - </button></div></div></div>');
+        i++;
       })
     });
   </script>

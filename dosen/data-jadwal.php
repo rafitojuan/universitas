@@ -6,17 +6,8 @@ include '../partials/notlogin.php';
 
 $data_matkul = query("SELECT * FROM mata_kuliah");
 $dosen = query("SELECT * FROM dosen JOIN mata_kuliah AS n USING(id_matkul)");
-$dosenSelect = query("SELECT * FROM dosen JOIN mata_kuliah AS n USING(id_matkul)")[0];
 $ruangan = query("SELECT * FROM ruangan");
 $jadwal = query("SELECT * FROM jadwal JOIN dosen AS d USING(id_dosen) JOIN mata_kuliah USING(id_matkul) JOIN ruangan AS r USING(id_ruangan) ");
-
-if (!isset($_SESSION['login'])) {
-  echo "
-  <script>
-  alert('Harap login dahulu...')
-  document.location.href = '../auth/login'
-  </script>";
-}
 
 if (isset($_POST['subJadwal'])) {
   if (addJadwal($_POST) > 0) {

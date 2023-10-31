@@ -1,7 +1,3 @@
-<script>
-  localStorage.setItem("notifOut", "true");
-</script>
-
 <?php
 
 if (!isset($_SESSION['login'])) {
@@ -14,7 +10,7 @@ if (!isset($_SESSION['login'])) {
             text: "Anda belum login!",
             icon: "error",
         }).then(function() {
-            document.location.href="../auth/login";
+            document.location.href="auth/login";
         });
     };
 </script>';

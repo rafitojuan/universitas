@@ -1,5 +1,5 @@
 <?php
-$page = 'home';
+$page = 'dosen';
 require '../function/function.php';
 session_start();
 
@@ -26,8 +26,6 @@ if (!isset($_SESSION['mahasiswa'])) {
 }
 
 
-$ipk = query("SELECT *,nilai, AVG(nilai) as Nilai, SUM(sks) AS SKS FROM mahasiswa LEFT JOIN nilai AS n USING(nim) JOIN mahasiswa AS m USING(nim) LEFT JOIN mata_kuliah AS mk USING(id_matkul)  WHERE nim = $nimMHS GROUP BY nim")[0];
-$jadwal = query("SELECT * FROM jadwal JOIN dosen AS d USING(id_dosen) JOIN mata_kuliah AS m USING(id_matkul) JOIN ruangan AS r USING(id_ruangan)");
 $dosen = mysqli_query($conn, "SELECT * FROM dosen");
 $jumlahDosen = mysqli_num_rows($dosen);
 
@@ -93,57 +91,14 @@ $jumlahMatkul = mysqli_num_rows($daftarMatkul);
       <section class="content">
         <div class="container-fluid">
           <!-- Info boxes -->
-          <div class="row">
-            <div class="col-12 col-sm-12 col-md-6">
-              <div class="info-box">
-                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-university"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">IPK :</span>
-                  <span class="info-box-number">
-                    <?php
-                    if ($ipk['nilai'] == NULL) {
-                      echo 'Nilai anda kosong';
-                    }
-                    ?>
-                    <?= $ipk['Nilai']  ?>
-                  </span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
 
-            <!-- fix for small devices only -->
-            <div class="clearfix hidden-md-up"></div>
-
-            <div class="col-12 col-sm-6 col-md-6">
-              <div class="info-box mb-3">
-                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-book"></i></span>
-
-                <div class="info-box-content">
-                  <span class="info-box-text">Jumlah SKS :</span>
-                  <span class="info-box-number">
-                    <?php
-                    if ($ipk['sks'] == NULL) {
-                      echo 'SKS anda kosong';
-                    }
-                    ?>
-                    <?= $ipk['SKS']  ?></span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-          </div>
           <!-- /.row -->
 
           <div class="row">
             <div class="col-md-12 mb-5">
               <div class="card">
                 <div class="card-header">
-                  <h5 class="card-title">Jadwal Kuliah Hari Ini</h5>
+                  <h5 class="card-title">Daftar Dosen yang Mengajar</h5>
 
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -160,27 +115,15 @@ $jumlahMatkul = mysqli_num_rows($daftarMatkul);
                     <table class="table m-0">
                       <thead>
                         <tr>
-                          <th>Dosen</th>
-                          <th>Mata Kuliah</th>
-                          <th>Ruangan</th>
-                          <th>Waktu</th>
+                          <th class="text-center">ID Dosen</th>
+                          <th class="text-center">Nama Dosen</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($jadwal as $items) : ?>
-                          <?php
-                          $jamM = strtotime($items['jam_masuk']);
-                          $jamK = strtotime($items['jam_keluar']);
-                          $jamMasuk = date('H:i', $jamM);
-                          $jamKeluar = date('H:i', $jamK);
-                          ?>
+                        <?php foreach ($dosen as $items) : ?>
                           <tr>
-                            <td><?= $items['nama_dosen'] ?></td>
-                            <td><?= $items['nama_matkul']  ?></td>
-                            <td><span class="badge badge-success"><?= $items['nama_ruangan']  ?></span></td>
-                            <td>
-                              <div class="sparkbar" data-color="#00a65a" data-height="20"><?= $jamMasuk ?> - <?= $jamKeluar ?></div>
-                            </td>
+                            <td class="text-center"><span class="badge badge-success"><?= $items['id_dosen'] ?></span></td>
+                            <td class="text-center"><?= $items['nama_dosen']  ?></td>
                           </tr>
                         <?php endforeach; ?>
                       </tbody>

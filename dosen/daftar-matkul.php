@@ -2,17 +2,9 @@
 require '../function/function.php';
 session_start();
 
-include '../partials/notlogin.php';
+include '../partials/notLogin.php';
 
-$data_matkul = query("SELECT * FROM mata_kuliah");
-
-if (!isset($_SESSION['login'])) {
-  echo "
-  <script>
-  alert('Harap login dahulu...')
-  document.location.href = '../auth/login'
-  </script>";
-}
+$data_matkul = query("SELECT *, CONCAT(prefix,id_matkul) AS IDM FROM mata_kuliah");
 
 if (isset($_POST['subMatkul'])) {
   if (addMatkul($_POST) > 0) {
@@ -301,6 +293,7 @@ if (isset($_POST['subMatkul'])) {
     </aside>
 
 
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
@@ -388,7 +381,7 @@ if (isset($_POST['subMatkul'])) {
                     <tbody>
                       <?php foreach ($data_matkul as $items) : ?>
                         <tr>
-                          <td><?= $items['id_matkul'] ?></td>
+                          <td><?= $items['IDM'] ?></td>
                           <td><?= $items['nama_matkul']  ?></td>
                           <td><?= $items['sks']  ?></td>
                           <td><?= $items['semester']  ?></td>
@@ -439,10 +432,6 @@ if (isset($_POST['subMatkul'])) {
           <form action="" method="post">
             <div class="modal-body">
               <div class="mb-3">
-                <label for="idMatkul" class="form-label">ID Mata Kuliah</label>
-                <input type="text" name="idMatkul" id="idMatkul" class="form-control" required oninvalid="this.setCustomValidity('Kolom ID tidak boleh kosong!')" oninput="this.setCustomValidity('')">
-              </div>
-              <div class="mb-3">
                 <label for="namaMatkul" class="form-label">Nama Mata Kuliah</label>
                 <input type="text" name="namaMatkul" id="namaMatkul" class="form-control" required oninvalid="this.setCustomValidity('Kolom nama tidak boleh kosong!')" oninput="this.setCustomValidity('')">
               </div>
@@ -452,7 +441,7 @@ if (isset($_POST['subMatkul'])) {
               </div>
               <div class="mb-3">
                 <label for="semester" class="form-label">Semester</label>
-                <input type="number" class="form-control" name="semester" id="semester" min="1" max="14" required oninvalid="this.setCustomValidity('Isi Semester (1-14).')">
+                <input type="number" class="form-control" name="semester" id="semester" min="1" max="14" required oninvalid="this.setCustomValidity('Isi Semester (1-14).')" oninput="this.setCustomValidity('')">
               </div>
             </div>
             <div class="modal-footer justify-content-between">

@@ -3,22 +3,7 @@
 require "config/config.php";
 session_start();
 
-if (!isset($_SESSION['login'])) {
-  echo "
-  <script>
-  alert('Harap login dahulu...')
-  document.location.href = 'auth/login'
-  </script>";
-}
-
-if (isset($_SESSION['mahasiswa'])) {
-  echo "
-  <script>
-  alert('Bandel Yahhh?!?!?...')
-  document.location.href = 'auth/login'
-  </script>";
-}
-
+include 'components/notLogin.php';
 
 $result = mysqli_query($conn, "SELECT * FROM dosen");
 $jmlh_dosen = mysqli_num_rows($result);

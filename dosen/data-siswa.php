@@ -6,14 +6,6 @@ include '../partials/notlogin.php';
 
 $data_siswa = query("SELECT CONCAT(uni, nim, ajaran) AS 'NIM', nim, nama_mahasiswa, tingkat, password, alamat FROM mahasiswa");
 
-if (!isset($_SESSION['login'])) {
-  echo "
-  <script>
-  alert('Harap login dahulu...')
-  document.location.href = '../auth/login'
-  </script>";
-}
-
 if (isset($_POST['subSiswa'])) {
   if (addSiswa($_POST) > 0) {
     echo "

@@ -12,13 +12,6 @@ $selectQuery = query("SELECT *, nilai, CONCAT(mahasiswa.uni,nim,mahasiswa.ajaran
 $no = 1;
 $dataMahasiswa = query("SELECT * FROM mahasiswa");
 
-if (!isset($_SESSION['login'])) {
-  echo "
-  <script>
-  alert('Harap login dahulu...')
-  document.location.href = '../auth/login'
-  </script>";
-}
 
 if (isset($_POST['subNilai'])) {
   if (addNilai($_POST) > 0) {

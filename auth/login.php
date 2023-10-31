@@ -1,6 +1,8 @@
 <?php
 session_start();
-require "../config/config.php";
+require "../function/function.php";
+
+$akun = query("SELECT * FROM admin JOIN mahasiswa");
 
 if (isset($_POST['logged'])) {
   $username = $_POST['username'];
@@ -19,12 +21,7 @@ if (isset($_POST['logged'])) {
             </script>
             ";
     } else {
-      echo "
-      <script>
-      alert('Password Salah')
-      document.location.href = 'login'
-      </script>
-      ";
+      // style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; z-index: 1000;"
     }
   }
 
@@ -38,27 +35,50 @@ if (isset($_POST['logged'])) {
       $_SESSION["mahasiswa"] = true;
       $_SESSION["namaMHS"] = ucfirst($baris['nama_mahasiswa']);
       $_SESSION["nim"] = $baris['nim'];
+      $_SESSION['foto'] = $baris['foto'];
 
       echo "
             <script>
-            document.location.href ='../mahasiswa/index.php'
+            document.location.href ='../mahasiswa/index'
             </script>
             ";
     } else {
-      echo "
-      <script>
-      alert('Password Salah')
-      document.location.href = 'login.php'
-      </script>
-      ";
+      $isWrongPass = '
+            <script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script>
+            <script>
+                function passAlert() {
+                    Swal.fire({
+                        title: "Oopss!",
+                        text: "Username atau Password tidak sesuai!",
+                        icon: "error",
+                    }).then(function() {
+                        document.location.href="login";
+                    });
+                };
+            </script>';
+
+      echo $isWrongPass;
+      echo '<p class="text-center" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; z-index: 1000;"></p>';
+      echo '<script>passAlert();</script>';
     }
   } else {
-    echo "
-    <script>    
-    alert('Akun tidak Ada!');
-    document.location.href ='login.php'
-    </script>
-    ";
+    $isWrongPass = '
+            <script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script>
+            <script>
+                function passAlert() {
+                    Swal.fire({
+                        title: "Oopss!",
+                        text: "Username atau Password tidak sesuai!",
+                        icon: "error",
+                    }).then(function() {
+                        document.location.href="login";
+                    });
+                };
+            </script>';
+
+    echo $isWrongPass;
+    echo '<p class="text-center" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; z-index: 1000;"></p>';
+    echo '<script>passAlert();</script>';
   }
 }
 
@@ -89,6 +109,7 @@ if (isset($_SESSION['login'])) {
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+  <link rel="stylesheet" href="../dist/css/select2.min.css">
   <link rel="icon" href="../dist/img/hopes.png">
 </head>
 
@@ -104,7 +125,11 @@ if (isset($_SESSION['login'])) {
 
         <form action="" method="post">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Username" name="username">
+            <select name="username" id="username" class="Select2 form-control">
+              <?php foreach ($akun as $data) : ?>
+                <option value="<?= $data['nim'] ?>"><?= $data['nama_mahasiswa'] ?></option>
+              <?php endforeach; ?>
+            </select>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -154,6 +179,18 @@ if (isset($_SESSION['login'])) {
   <script src="../dist/js/adminlte.min.js"></script>
   <!-- Toastr -->
   <script src="../plugins/toastr/toastr.min.js"></script>
+  <!-- Include -->
+  <script src="../dist/js/select2.min.js"></script>
+  <!-- SELECT2 -->
+  <script>
+    $(document).ready(function() {
+      $('.Select2').select2({
+        placeholder: 'Login Sebagai...',
+        tags: true,
+        width: 'resolve'
+      })
+    })
+  </script>
   <!-- logout toastr -->
   <script>
     toastr.options = {

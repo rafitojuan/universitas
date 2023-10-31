@@ -71,10 +71,10 @@ function addSiswa($data)
 
   $nama_siswa = ucwords(htmlspecialchars($data['namaSiswa']));
   $tingkat = $data['tingkat'];
-  $password = $data['password'];
+  $password = htmlspecialchars($data['password']);
   $alamat = ucwords(htmlspecialchars($data['alamat']));
 
-  $query = "INSERT INTO mahasiswa VALUES ('HPA/',NULL,'/2023','$nama_siswa','$tingkat','$password','$alamat')";
+  $query = "INSERT INTO mahasiswa VALUES ('HPA/',NULL,'/2023','$nama_siswa','$tingkat','$password','$alamat','avatar5.png')";
 
   mysqli_query($conn, $query);
 
@@ -90,7 +90,7 @@ function updateSiswa($data)
 
   $nmSiswa = ucwords(htmlspecialchars($data['namaMahasiswa']));
   $tingkat = $data['tingkat'];
-  $password = $data['password'];
+  $password = htmlspecialchars($data['password']);
   $alamat = ucwords(htmlspecialchars($data['alamat']));
 
   $query = "UPDATE mahasiswa SET nama_mahasiswa = '$nmSiswa', tingkat = '$tingkat', password = '$password', alamat = '$alamat' WHERE nim = $nim";
@@ -116,10 +116,9 @@ function addRuangan($data)
 {
   global $conn;
 
-  $id_ruangan = ucwords(htmlspecialchars($data['idRuangan']));
   $nama_ruangan = ucwords(htmlspecialchars($data['namaRuangan']));
 
-  $query = "INSERT INTO ruangan VALUES ('$id_ruangan','$nama_ruangan')";
+  $query = "INSERT INTO ruangan VALUES ('RK',NULL,'$nama_ruangan')";
 
   mysqli_query($conn, $query);
 
@@ -154,12 +153,11 @@ function addMatkul($data)
 {
   global $conn;
 
-  $id_matkul = strtoupper(htmlspecialchars($data['idMatkul']));
   $nm_matkul = ucwords(htmlspecialchars($data['namaMatkul']));
   $sks = $data['sks'];
   $semester = $data['semester'];
 
-  $query = "INSERT INTO mata_kuliah VALUES ('$id_matkul','$nm_matkul','$sks','$semester')";
+  $query = "INSERT INTO mata_kuliah VALUES ('MK',NULL,'$nm_matkul','$sks','$semester')";
 
   mysqli_query($conn, $query);
 
@@ -280,5 +278,58 @@ function updateJadwal($data)
 
   $query = "UPDATE jadwal SET id_dosen = $dosen, id_ruangan = '$ruangan', hari = '$hari', jam_masuk = '$jamM', jam_keluar = '$jamK' WHERE id_jadwal = $id";
   mysqli_query($conn, $query);
+  return mysqli_affected_rows($conn);
+}
+
+// Update Profile
+function updateFoto()
+{
+  $namaFile = $_FILES['uploadFP']['name'];
+  $error = $_FILES['uploadFP']['error'];
+  $tmpName = $_FILES['uploadFP']['tmp_name'];
+
+  $ekstensiValid = ['jpg', 'jpeg', 'png'];
+  $ekstensiFile = explode('.', $namaFile);
+  $ekstensiFile = strtolower(end($ekstensiFile));
+
+  if (!in_array($ekstensiFile, $ekstensiValid)) {
+    echo "<script>alert('Upload ulang foto!');</script>";
+    return false;
+  }
+
+  $namaFileBaru = uniqid() . "." . $ekstensiFile;
+  $tujuan = "../dist/img/" . $namaFileBaru;
+
+  if (move_uploaded_file($tmpName, $tujuan)) {
+    return $namaFileBaru;
+  } else {
+    echo "<script>alert('Gagal mengunggah file');</script>";
+    return false;
+  }
+}
+
+function updateProfile($data)
+{
+  global $conn;
+
+  $nimMhs = $data['nimMhs'];
+  $username = $data['namaMhs'];
+  $password = $data['password'];
+  $konfirm = $data['confirmPassword'];
+  $gambar = updateFoto();
+
+  if ($password !== $konfirm) {
+    echo  "<script>
+          alert('Konfrimasi password tidak sesuai');
+          </script>";
+    die();
+  }
+
+
+  if (!$gambar) {
+    return false;
+  }
+
+  mysqli_query($conn, "UPDATE mahasiswa SET nama_mahasiswa = '$username' , password = '$password', foto = '$gambar' WHERE nim = $nimMhs");
   return mysqli_affected_rows($conn);
 }

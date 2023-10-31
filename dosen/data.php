@@ -6,16 +6,8 @@ session_start();
 
 include '../partials/notlogin.php';
 
-$dosen = query("SELECT *, CONCAT(prefix,id_dosen) AS 'ID_DOSEN' FROM dosen JOIN mata_kuliah AS c USING(id_matkul)");
+$dosen = query("SELECT *, CONCAT(dosen.prefix,id_dosen) AS 'ID_DOSEN' FROM dosen JOIN mata_kuliah AS c USING(id_matkul)");
 $matkul = query("SELECT * FROM mata_kuliah");
-
-if (!isset($_SESSION['login'])) {
-  echo "
-  <script>
-  alert('Harap login dahulu...')
-  document.location.href = '../auth/login'
-  </script>";
-}
 
 if (isset($_POST['dataDosen'])) {
   if (addDosen($_POST) > 0) {
